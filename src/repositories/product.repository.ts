@@ -21,10 +21,12 @@ const getAllProducts = async (): Promise<Product[]> => {
     }
 }
 
-//TODO LIMITAR A TRES PRODUCTOS?
+//TODO MODIFICAR CUANDO SE AGREGUE EL CARROUSEL.
 const getProductsWithOutstanding = async (): Promise<Product[]> => {
     try {
         const products = await productModel.find({outstanding: true})
+        .sort({ updatedAt: -1 }) //Lo ordena de manera desc según la propiedad
+        .limit(3) //Limita el número de registros
         return products
     } catch (error) {
         throw error
