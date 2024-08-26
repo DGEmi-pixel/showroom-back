@@ -86,7 +86,12 @@ const createShowRoom = async (showroomData: ShowRoom): Promise<ShowRoom | ApiErr
     try {
         const showroom = await showroomModel.create(showroomData)
         if(showroom){
-            return showroom
+            return ({
+                error: false,
+                message: 'Showroom cargado',
+                statusCode: 200,
+                data: showroom
+            })
         } else {
             return ({
                 message: 'Error, no se ha creado ningún showroom',
@@ -101,8 +106,7 @@ const createShowRoom = async (showroomData: ShowRoom): Promise<ShowRoom | ApiErr
 
 const updateShowRoom = async (showroomData: ShowRoom, showroomId: string): Promise<ShowRoom | ApiError> => {
     try {
-        const showroom = await showroomModel.findByIdAndUpdate(showroomId, showroomData)
-        console.log(showroom)
+        const showroom = await showroomModel.findByIdAndUpdate(showroomId, showroomData, {new: true})
         if(showroom){
             return ({
                 error: false,

@@ -1,5 +1,5 @@
 import {userRepository} from '../repositories/user.repository'
-import { LoginUser, User } from "../constants/user.constant"
+import { LoginUser, UserUpdate, User } from "../constants/user.constant"
 import { hashPassword } from '../utils/password.utils'
 import { encode } from '../utils/token.utils'
 import { ApiError } from '../constants/error.constant'
@@ -37,11 +37,18 @@ const createUser = async (userData: User): Promise<User | ApiError> => {
 
 const updateUser = async (userData: User, userId: string): Promise<User | ApiError> => {
     try {
-        //[ ] HASHING PASSWORD
-        const passwordHashed = await hashPassword(userData.password)
-        userData.password = passwordHashed
+        //[ ] ANTES DE HASHEAR VERIFICAMOS QUE LA PASSWORD NO ESTÉ VACÍA
+        const updateData: UserUpdate = {...userData }
+        if(updateData.password){
+            //[ ] HASHING PASSWORD
+            const passwordHashed = await hashPassword(updateData.password)
+            updateData.password = passwordHashed
+        } else {
+            //[ ] DELETE PASSWORD
+            delete updateData.password
+        }
         
-        const resDB = await userRepository.updateUser(userData, userId)
+        const resDB = await userRepository.updateUser(updateData, userId)
         return resDB
     } catch (error) {
         throw error

@@ -1,5 +1,5 @@
 import { userModel } from "../db/models/user.model"
-import { LoginUser, User } from "../constants/user.constant"
+import { LoginUser, UserUpdate, User } from "../constants/user.constant"
 import { comparePassword } from "../utils/password.utils"
 import { ApiError } from "../constants/error.constant"
 
@@ -49,7 +49,7 @@ const createUser = async (userData: User): Promise<User | ApiError> => {
     }
 }
 
-const updateUser = async (userData: User, userId: string): Promise<User | ApiError> => {
+const updateUser = async (userData: UserUpdate, userId: string): Promise<User | ApiError> => {
     try {
         const user = await userModel.findByIdAndUpdate(userId, userData, {new: true, select: '-password'})
         if(user){
