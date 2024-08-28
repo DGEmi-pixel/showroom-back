@@ -190,8 +190,8 @@ const removeProduct = async (productId: string): Promise<ApiError> => {
 
 const removeManyProducts = async (arrayProductsId: string[]): Promise<ApiError> => {
     try {
-        // const resDB = await productModel.deleteMany({_id: {$in: arrayProductsId}})
-        const resDB = await productModel.find({_id: arrayProductsId[0]})
+        const resDB = await productModel.deleteMany({_id: {$in: arrayProductsId}})
+        // const resDB = await productModel.find({_id: arrayProductsId[0]})
         if(resDB){
             return({
                 error: false,
