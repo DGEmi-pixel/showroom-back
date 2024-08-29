@@ -1,6 +1,7 @@
 import { productModel } from '../db/models/product.model'
 import { Product } from '../constants/product.constant';
 import { ApiError } from '../constants/error.constant';
+import { unlinkFile } from '../config/upload';
 
 import cloudinary from '../db/index.cloudinary';
 
@@ -35,12 +36,15 @@ const getProductsWithOutstanding = async (): Promise<Product[]> => {
 
 const createProduct = async (productData: Product): Promise<Product | ApiError> => {
     try {
-        //ANTES DE CREAR EL PRODUCTO GUARDAMOS LA IMAGEN EN CLOUDINARY
+        //[ ] ANTES DE CREAR EL PRODUCTO GUARDAMOS LA IMAGEN EN CLOUDINARY
         if(productData.imageUrl){
             const result = await cloudinary.uploader.upload(productData.imageUrl, {
             });
             
             if(result){
+                //[ ] Eliminar el archivo temporal
+                await unlinkFile(productData.imageUrl)
+
                 const imageUrl = result.secure_url
 
                 //ACTUALIZAMOS EL VALOR DE LA PROPIEDAD DE PRODUCT MODAL DATA POR LA URL PÚBLICA
