@@ -118,6 +118,9 @@ const updateProduct = async (productData: Product): Promise<Product | ApiError> 
             });
 
             if(result){
+                //[ ] Eliminar el archivo temporal
+                await unlinkFile(productData.imageUrl)
+                
                 //ACTUALIZAMOS EL VALOR DE LA PROPIEDAD DE PRODUCT MODAL DATA POR LA URL PÚBLICA
                 updateFields.imageUrl = result.secure_url;
             }
