@@ -52,7 +52,7 @@ const showroomSchema = new Schema<ShowRoom>(
                 type: String,
                 required: true
             },
-            twitter: {
+            whatsapp: {
                 type: String,
                 required: true
             },
