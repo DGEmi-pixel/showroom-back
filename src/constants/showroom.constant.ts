@@ -12,7 +12,7 @@ export interface ShowRoom {
     phoneNumber: string,
     socialMedia: {
         facebook: string,
-        twitter: string,
+        whatsapp: string,
         instagram: string
     }
 }
